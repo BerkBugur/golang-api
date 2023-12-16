@@ -4,4 +4,4 @@ global:
 scrape_configs:
   - job_name: 'my-app'
     static_configs:
-      - targets: ['my-app:8080']
+      - targets: ['my-app:8081']

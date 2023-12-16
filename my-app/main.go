@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/BerkBugur/Go-Project/controllers"
 	"github.com/BerkBugur/Go-Project/docs"
@@ -26,25 +27,29 @@ var (
 	)
 )
 
-// @title Documenting API
-// @version 1
-// @Description CRUD Operations
-
 func init() {
 	prometheus.MustRegister(requestCount)
 	initializers.LoadEnvVars()
 	initializers.ConnectDB()
+
+	// Log dosyasını aç
+	file, err := os.OpenFile("app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err == nil {
+		// Log dosyasını ayarla
+		logrus.SetOutput(file)
+		logrus.SetFormatter(&logrus.TextFormatter{})
+	} else {
+		logrus.Info("Failed to log to file, using default stderr")
+	}
 }
 
 func main() {
-	// Logrus
-	logrus.SetFormatter(&logrus.TextFormatter{})
-	//Prometheus
+	// Prometheus
 	http.Handle("/metrics", promhttp.Handler())
 	go func() {
 		log.Fatal(http.ListenAndServe(":8081", nil))
 	}()
-	//CompileDaemon -command="./go-crud"
+
 	r := gin.Default()
 	docs.SwaggerInfo.BasePath = ""
 	tasks := r.Group("/tasks")
@@ -55,12 +60,12 @@ func main() {
 		tasks.PUT("/:id", controllers.TaskUpdate)
 		tasks.DELETE("/:id", controllers.TaskDelete)
 	}
-	//TESTS
+
+	// Logrus test
 	logrus.Info("Uygulama başladı")
 	logrus.Warn("Bu bir uyarı mesajıdır")
 	logrus.Error("Bu bir hata mesajıdır")
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	r.Run() // listen and serve on 0.0.0.0:8080
-
+	r.Run()
 }
