@@ -7,6 +7,8 @@ services:
     ports:
       - 8080:8080
       - 8081:8081
+    volumes:
+      - ./my-app/logs/app.log:/app/app.log
   
   promethus:
     image: prom/prometheus:latest 
