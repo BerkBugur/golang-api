@@ -6,7 +6,20 @@ This project is a RESTful API written in Go. It offers a simple and effective so
 
 This section lists the requirements to run the project on your local machine
 
-- You need to install [Docker](https://docs.docker.com/get-docker/) / [Docker Compose](https://docs.docker.com/compose/)
+- You need to install [Go](https://go.dev/dl/)
+```bash
+Checking for any error
+
+go version
+```
+
+- You need to install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/)
+```bash
+Checking for any error
+
+docker version
+docker compose version
+```
 
 - Clone this source code your machine.
 
@@ -35,7 +48,9 @@ Swagger 2.0 was used for documentation. You can view all APIs from the link belo
 `http://<your-ip>:8080/swagger/index.html`
 
 ## Testing
-Lorem 
+Go to controllers folder setup your test db. Can easily create [ElephantSQL](https://www.elephantsql.com/). After set your test database 
+
+`go test`
 
 
 ## Logging and Monitoring
