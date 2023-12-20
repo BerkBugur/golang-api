@@ -100,5 +100,6 @@ Once you complete the login process, you can access secure endpoints. If you do 
 
 This request will return the first 10 tasks.
 
-For shut down this project go project directory
-`` docker compose down``
+**For shut down this project go project directory**
+
+``docker compose down``
