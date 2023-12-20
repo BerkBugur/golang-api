@@ -60,8 +60,8 @@ Grafana and Prometheus were used for monitoring. You can follow the instructions
 *username: admin - pass: admin*
 
 ``http://<your-ip>:3000/login`` 
+<img src="https://github.com/BerkBugur/go-project/assets/56639375/7b736462-dbad-4919-8465-56b59049f152" width=50% height=50%>
 
-![Ekran görüntüsü 2023-12-19 205855](https://github.com/BerkBugur/go-project/assets/56639375/7b736462-dbad-4919-8465-56b59049f152)
 
 ### Logging
 You can see the app.log file in the directory or we can connect to the container and see it. For this, we connect to the my-app container and then we can read the file.
