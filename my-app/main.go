@@ -8,11 +8,7 @@ import (
 	"github.com/BerkBugur/Go-Project/controllers"
 	"github.com/BerkBugur/Go-Project/docs"
 	"github.com/BerkBugur/Go-Project/initializers"
-<<<<<<< HEAD
 	"github.com/BerkBugur/Go-Project/middleware"
-=======
-	"github.com/BerkBugur/Go-Project/models"
->>>>>>> 73fd3cc5fb5350912c18208111186e12d47ed1f3
 
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus"
@@ -39,15 +35,9 @@ func init() {
 	prometheus.MustRegister(requestCount)
 	initializers.LoadEnvVars()
 	initializers.ConnectDB()
-<<<<<<< HEAD
 	// Sync database models
 	initializers.SyncDatabase()
 	// Open log file
-=======
-	initializers.DB.AutoMigrate(&models.Task{})
-
-	// Log dosyasını aç
->>>>>>> 73fd3cc5fb5350912c18208111186e12d47ed1f3
 	file, err := os.OpenFile("app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
 		// Log dosyasını ayarla
