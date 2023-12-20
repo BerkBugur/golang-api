@@ -47,6 +47,9 @@ Swagger 2.0 was used for documentation. You can view all APIs from the link belo
 
 `http://<your-ip>:8080/swagger/index.html`
 
+If not shown correctly 
+`` swag init --parseDependency true ``
+
 ## Testing
 Go to controllers folder setup your test db. Can easily create [ElephantSQL](https://www.elephantsql.com/). After set your test database 
 
@@ -87,7 +90,7 @@ docker exec -it go-project-my-app-1 /bin/sh
 cat app.log
 ```
 
-##@@IMAGE@@
+<img src="https://github.com/BerkBugur/go-project/assets/56639375/0a91534b-3560-45db-9843-095f559c4f3f" width=60% height=40%>
 
 ## Project Security and JWT Usage
 
