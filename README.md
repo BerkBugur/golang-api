@@ -47,6 +47,9 @@ Swagger 2.0 was used for documentation. You can view all APIs from the link belo
 
 `http://<your-ip>:8080/swagger/index.html`
 
+If not shown correctly 
+`` swag init --parseDependency true ``
+
 ## Testing
 Go to controllers folder setup your test db. Can easily create [ElephantSQL](https://www.elephantsql.com/). After set your test database 
 
