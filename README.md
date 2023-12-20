@@ -14,7 +14,7 @@ This section lists the requirements to run the project on your local machine
 
 ## While starting
 
-In the **project directory**, you need to build first after that can run:
+In the **Project Directory**, you need to build first after that can run:
 
 `docker compose build`
 
