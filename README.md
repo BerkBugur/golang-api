@@ -88,7 +88,7 @@ In this project, certain endpoints are secured using JSON Web Tokens (JWT). JWT 
 
   ``http://<your-ip>:8080/users/login ``
 
-  > *Upon this request, you will be provided with a JWT token. This token can be stored as a **COOKIE**. If you encounter any issues with cookies, you can use the returned token for your tests.*
+  > *Upon this request, you will be provided with a JWT token. This token stored as a **COOKIE**. If you encounter any issues with cookies, you can use the returned token for your tests.*
 
 - To verify your login, send a GET request to the following endpoint to check the validity of the token:
 
