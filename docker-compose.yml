@@ -7,8 +7,11 @@ services:
     ports:
       - 8080:8080
       - 8081:8081
-    depends_on:
-      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   promethus:
     image: prom/prometheus:latest 
