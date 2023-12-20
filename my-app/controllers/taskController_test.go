@@ -22,7 +22,7 @@ func setupTestDB() *gorm.DB {
 		panic("Failed to connect to the database")
 	}
 
-	// Veritabanı şemalarını burada başlatabilirsiniz
+	// Database object migrate
 	db.AutoMigrate(&models.Task{})
 
 	return db
@@ -60,7 +60,7 @@ func TestGetAllTask(t *testing.T) {
 	testDB := setupTestDB()
 	initializers.DB = testDB
 
-	// Test ortamını ayarla
+	// New router
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
 	router.GET("/tasks", GetAllTask)
