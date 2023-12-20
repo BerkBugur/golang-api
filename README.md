@@ -87,7 +87,7 @@ docker exec -it go-project-my-app-1 /bin/sh
 cat app.log
 ```
 
-##@@IMAGE@@
+<img src="https://github.com/BerkBugur/go-project/assets/56639375/0a91534b-3560-45db-9843-095f559c4f3f" width=100% height=70%>
 
 ## Project Security and JWT Usage
 
