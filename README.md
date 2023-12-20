@@ -14,7 +14,9 @@ This section lists the requirements to run the project on your local machine
 
 ## While starting
 
-In the **project directory**, you can run:
+In the **project directory**, you need to build first after that can run:
+
+`docker compose build`
 
 `docker compose up -d`
 
