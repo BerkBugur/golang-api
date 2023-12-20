@@ -99,3 +99,6 @@ Once you complete the login process, you can access secure endpoints. If you do 
 ``http://<your-ip>:8080/tasks/paged?page=1&size=10``
 
 This request will return the first 10 tasks.
+
+For shut down this project go project directory
+`` docker compose down``
