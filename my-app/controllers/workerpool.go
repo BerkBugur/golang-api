@@ -8,8 +8,9 @@ import (
 )
 
 type TaskJob struct {
-	Task   models.Task
-	Result chan error
+	Task       models.Task
+	Result     chan error
+	TaskResult chan models.Task // Updated Task
 }
 
 type WorkerPool struct {
@@ -21,7 +22,7 @@ type WorkerPool struct {
 var pool *WorkerPool
 
 func init() {
-	pool = NewWorkerPool(4) // Worker sayısını isteğe bağlı olarak ayarlayabilirsiniz.
+	pool = NewWorkerPool(5) // Worker Thread number
 	pool.Start()
 }
 
@@ -42,6 +43,9 @@ func (wp *WorkerPool) worker() {
 	for job := range wp.jobQueue {
 		result := initializers.DB.Create(&job.Task)
 		job.Result <- result.Error
+		if result.Error == nil {
+			job.TaskResult <- job.Task // Update task and return back
+		}
 	}
 	wp.wg.Done()
 }

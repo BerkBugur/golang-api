@@ -1,4 +1,7 @@
 definitions:
+  gin.H:
+    additionalProperties: {}
+    type: object
   gorm.DeletedAt:
     properties:
       time:
@@ -26,9 +29,6 @@ definitions:
     type: object
 info:
   contact: {}
-  description: CRUD
-  title: Documenting API
-  version: "1"
 paths:
   /tasks:
     get:
@@ -133,4 +133,96 @@ paths:
       summary: Update a task by ID
       tags:
       - Tasks
+  /tasks/paged:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Task'
+            type: array
+      security:
+      - jwt: []
+      summary: Get paginated tasks
+      tags:
+      - Tasks
+  /users/login:
+    post:
+      parameters:
+      - description: Email address
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Log in a user
+      tags:
+      - Users
+  /users/signup:
+    post:
+      parameters:
+      - description: Email address
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Sign up a new user
+      tags:
+      - Users
+  /users/validate:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - jwt: []
+      summary: Validate the logged-in user
+      tags:
+      - Users
+securityDefinitions:
+  jwt:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

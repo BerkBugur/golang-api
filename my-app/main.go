@@ -8,6 +8,7 @@ import (
 	"github.com/BerkBugur/Go-Project/controllers"
 	"github.com/BerkBugur/Go-Project/docs"
 	"github.com/BerkBugur/Go-Project/initializers"
+	"github.com/BerkBugur/Go-Project/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus"
@@ -28,11 +29,15 @@ var (
 )
 
 func init() {
+	gin.SetMode(gin.ReleaseMode)
+
+	// Prometheus
 	prometheus.MustRegister(requestCount)
 	initializers.LoadEnvVars()
 	initializers.ConnectDB()
-
-	// Log dosyasını aç
+	// Sync database models
+	initializers.SyncDatabase()
+	// Open log file
 	file, err := os.OpenFile("app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
 		// Log dosyasını ayarla
@@ -43,7 +48,12 @@ func init() {
 	}
 }
 
+//@securityDefinitions.apikey jwt
+//@in header
+//@name Authorization
+
 func main() {
+	// CompileDaemon -command="./main.go"
 	// Prometheus
 	http.Handle("/metrics", promhttp.Handler())
 	go func() {
@@ -59,12 +69,18 @@ func main() {
 		tasks.GET("/:id", controllers.TaskShowByID)
 		tasks.PUT("/:id", controllers.TaskUpdate)
 		tasks.DELETE("/:id", controllers.TaskDelete)
+		tasks.GET("/paged", middleware.RequireAuth, controllers.GetAllTaskByPage)
+
+	}
+	users := r.Group("/users")
+	{
+		users.POST("/signup", controllers.SignUp)
+		users.POST("/login", controllers.Login)
+		users.GET("/validate", middleware.RequireAuth, controllers.Validate) // Require Auth
 	}
 
 	// Logrus test
-	logrus.Info("Uygulama başladı")
-	logrus.Warn("Bu bir uyarı mesajıdır")
-	logrus.Error("Bu bir hata mesajıdır")
+	logrus.Info("App Started.")
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run()

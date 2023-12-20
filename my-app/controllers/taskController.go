@@ -1,7 +1,9 @@
 package controllers
 
-// swag init --parseDependency true
+// swag init --parseDependency true For Auto Doc Swagger !!
 import (
+	"strconv"
+
 	"github.com/BerkBugur/Go-Project/initializers"
 	"github.com/BerkBugur/Go-Project/models"
 	"github.com/sirupsen/logrus"
@@ -34,20 +36,21 @@ func TaskCreate(c *gin.Context) {
 	task := models.Task{Title: body.Title, Description: body.Description, Status: body.Status}
 
 	resultChan := make(chan error)
+	taskResultChan := make(chan models.Task)
 	pool.wg.Add(1)
 	go func() {
 		defer pool.wg.Done()
-		pool.jobQueue <- TaskJob{Task: task, Result: resultChan}
+		pool.jobQueue <- TaskJob{Task: task, Result: resultChan, TaskResult: taskResultChan}
 	}()
 
 	err := <-resultChan
 	if err != nil {
-		logrus.WithError(err).Error("Failed to process task creation job")
-		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	logrus.Infof("Task created. Task ID: %d", task.ID)
-	c.JSON(200, gin.H{"task": task})
+
+	updatedTask := <-taskResultChan // Updated task
+	logrus.Infof("Task created. Task ID: %d", updatedTask.ID)
+	c.JSON(200, gin.H{"task": updatedTask})
 }
 
 // GetAllTask returns a JSON response with all tasks in the database.
@@ -150,7 +153,6 @@ func TaskUpdate(c *gin.Context) {
 }
 
 // TaskDelete deletes a task specified by ID from the database.
-// It returns a JSON response indicating the deletion.
 // @Summary Delete a task by ID
 // @Tags Tasks
 // @Param id path int true "Task ID"
@@ -161,13 +163,53 @@ func TaskDelete(c *gin.Context) {
 	// Get ID
 	id := c.Param("id")
 
-	// Delete Task by ID
+	// Delete task by id
 	if err := initializers.DB.Delete(&models.Task{}, id).Error; err != nil {
 		logrus.WithError(err).Error("Failed to delete task")
 		c.JSON(500, gin.H{"error": "Failed to delete task"})
 		return
 	}
-	// Response
+	// return
 	logrus.Infof("Task deleted successfully.")
 	c.Status(200)
+}
+
+// @SecurityDefinitions jwt
+// @Security jwt
+// GetAllTaskByPage returns a JSON response with paginated tasks from the database.
+// @Summary Get paginated tasks
+// @Tags Tasks
+// @Produce json
+// @Param page query int false "Page number" default(1)
+// @Param size query int false "Page size" default(10)
+// @Success 200 {array} models.Task
+// @Router /tasks/paged [get]
+func GetAllTaskByPage(c *gin.Context) {
+	var tasks []models.Task
+
+	// Get param
+	page, err := strconv.Atoi(c.Query("page"))
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	pageSize, err := strconv.Atoi(c.Query("pageSize"))
+	if err != nil || pageSize < 1 {
+		pageSize = 10
+	}
+
+	offset := (page - 1) * pageSize
+	limit := pageSize
+
+	resultChan := make(chan []models.Task)
+	pool.wg.Add(1)
+	go func() {
+		defer pool.wg.Done()
+		// pagination query
+		initializers.DB.Offset(offset).Limit(limit).Find(&tasks)
+		resultChan <- tasks
+	}()
+
+	tasks = <-resultChan
+	c.JSON(200, gin.H{"tasks": tasks})
 }
