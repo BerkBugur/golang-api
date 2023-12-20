@@ -34,8 +34,6 @@ Swagger 2.0 was used for documentation. You can view all APIs from the link belo
 
 `http://<your-ip>:8080/swagger/index.html`
 
-##@@IMAGE@@
-
 ## Testing
 Lorem 
 
