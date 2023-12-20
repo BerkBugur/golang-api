@@ -50,14 +50,14 @@ Grafana and Prometheus were used for monitoring. You can follow the instructions
 
 **Prometheus page**
 
-``http://54.196.202.141:9090/graph``
+``http://<your-ip>:9090/graph``
 
 
 **Grafana login page**
 
 *username: admin - pass: admin*
 
-http://54.196.202.141:3000/login 
+``http://<your-ip>:3000/login`` 
 
 ##@@IMAGE@@
 
