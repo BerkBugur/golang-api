@@ -10,7 +10,7 @@ This section lists the requirements to run the project on your local machine
 
 - Clone this source code your machine.
 
-- If you are going to run the application over the cloud (e.g. AWS), **allow ports** in the security group so that the services can communicate with each other.
+- If you are going to run the application over the cloud (e.g. AWS), **Allow Ports** in the security group so that the services can communicate with each other.
 
 ## While starting
 
