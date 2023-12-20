@@ -60,7 +60,7 @@ Grafana and Prometheus were used for monitoring. You can follow the instructions
 *username: admin - pass: admin*
 
 ``http://<your-ip>:3000/login`` 
-<img src="https://github.com/BerkBugur/go-project/assets/56639375/7b736462-dbad-4919-8465-56b59049f152" width=50% height=50%>
+<img src="https://github.com/BerkBugur/go-project/assets/56639375/7b736462-dbad-4919-8465-56b59049f152" width=100% height=70%>
 
 
 ### Logging
